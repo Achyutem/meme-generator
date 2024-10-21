@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CircleUser, Menu, Package2, Search } from "lucide-react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { ModeToggle } from "@/components/ui/modeToggle";
 
 export function Header() {
   return (
@@ -75,6 +76,7 @@ export function Header() {
             />
           </div>
         </form>
+        <ModeToggle />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
