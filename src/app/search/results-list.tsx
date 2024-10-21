@@ -6,21 +6,22 @@ import { urlEndpoint } from "../providers";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function ResultsList({ files }: { files: FileObject[] }) {
-
   return (
-    <div className="grid grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       {files.map((file) => (
         <Card key={file.fileId}>
           <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
+            <CardTitle>
+              {file.customMetadata?.displayName ?? file.name}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <IKImage
@@ -33,7 +34,9 @@ export function ResultsList({ files }: { files: FileObject[] }) {
             />
           </CardContent>
           <CardFooter>
-            <p>Card Footer</p>
+            <Button asChild>
+              <Link href={`/customize/${file.fileId}`}>Edit</Link>
+            </Button>
           </CardFooter>
         </Card>
       ))}
