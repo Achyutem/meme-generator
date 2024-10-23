@@ -1,60 +1,59 @@
 "use client";
 
 import { urlEndpoint } from "@/app/providers";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
 import { useState } from "react";
+import { TextOverlay } from "./overlayText";
 
 const CustomizePanel = ({
   file,
 }: {
   file: Pick<FileObject, "filePath" | "name">;
 }) => {
-  const [textOverlay1, setTextOverlay1] = useState("");
-  const [textOverlay1position, setTextOverlay1position] = useState(0);
-  const [textOverlay2position, setTextOverlay2position] = useState(0);
-  const transformations = [];
-  const xPosition = textOverlay1position / 100;
-  const yPosition = textOverlay2position / 100;
-  if (textOverlay1) {
-    transformations.push({
-      raw: `l-text,i-${textOverlay1},fs-50,lx-bw_mul_${xPosition.toFixed(
-        1
-      )},ly-bw_mul_${yPosition.toFixed(1)},l-end`,
-    });
-  }
+  const [transformations, setTransformations] = useState<
+    Record<string, { raw: string }>
+  >({});
+
+  const transformationsArray = Object.values(transformations);
 
   return (
     <div className="grid grid-cols-2 gap-8">
       <form className="space-y-4">
-        <Label htmlFor="textOverlay1">Text Overlay 1</Label>
-        <Input
-          id="textOverlay1"
-          onChange={(e) => setTextOverlay1(e.target.value)}
-          value={textOverlay1}
+        <TextOverlay
+          onUpdate={(text, x, y) => {
+            setTransformations((current) => ({
+              ...current,
+              ["text1"]: {
+                raw: `l-text,i-${text ?? " "},fs-50,ly-bw_mul_${y.toFixed(
+                  2
+                )},lx-bw_mul_${x.toFixed(2)},l-end`,
+              },
+            }));
+          }}
         />
-        <Label>Text 1 X Positon</Label>
-        <Slider
-          value={[textOverlay1position]}
-          onValueChange={([v]) => setTextOverlay1position(v)}
-        />
-        <Label>Text 1 Y Positon</Label>
-        <Slider
-          value={[textOverlay2position]}
-          onValueChange={([v]) => setTextOverlay2position(v)}
+        <TextOverlay
+          onUpdate={(text, x, y) => {
+            setTransformations((current) => ({
+              ...current,
+              ["text2"]: {
+                raw: `l-text,i-${text ?? " "},fs-50,ly-bw_mul_${y.toFixed(
+                  2
+                )},lx-bw_mul_${x.toFixed(2)},l-end`,
+              },
+            }));
+          }}
         />
       </form>
+
       <IKImage
         path={file.filePath}
         urlEndpoint={urlEndpoint}
         alt={file.name}
-        transformation={transformations}
+        transformation={transformationsArray}
       />
     </div>
   );
 };
 
-export default CustomizePanel;
+export { CustomizePanel };

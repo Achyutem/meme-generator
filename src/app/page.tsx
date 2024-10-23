@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { IKImage, IKUpload } from "imagekitio-next";
 import { useState } from "react";
 import { urlEndpoint } from "./providers";
@@ -10,8 +9,6 @@ export default function Home() {
 
   return (
     <div className="">
-      {/* <Button variant={"destructive"}>Click Me</Button> */}
-
       {name && (
         <IKImage
           width={300}

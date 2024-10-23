@@ -1,15 +1,11 @@
 import { unstable_noStore } from "next/cache";
 import imagekit from "@/lib/imagekit";
-import { IKImage } from "imagekitio-next";
-import { urlEndpoint } from "@/app/providers";
-import CustomizePanel from "./customizePanel";
+import { CustomizePanel } from "./customizePanel";
 
 const CustomizePage = async ({ params }: { params: { fileId: string } }) => {
   unstable_noStore();
 
   const file = await imagekit.getFileDetails(params.fileId);
-
-  console.log(file);
 
   return (
     <div className="container mx-auto space-y-8 py-8 px-4">
