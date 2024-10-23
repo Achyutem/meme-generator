@@ -1,13 +1,7 @@
-import ImageKit from "imagekit";
 import { unstable_noStore } from "next/cache";
 import { ResultsList } from "./results-list";
 import UploadMemeButton from "./uploadMemeButton";
-
-const imagekit = new ImageKit({
-  publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY!,
-  privateKey: process.env.PRIVATE_KEY!,
-  urlEndpoint: process.env.NEXT_PUBLIC_URL_ENDPOINT!,
-});
+import imagekit from "@/lib/imagekit";
 
 const SearchPage = async ({
   searchParams,
