@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <div className="">
-      <Button variant={"destructive"}>Click Me</Button>
+      {/* <Button variant={"destructive"}>Click Me</Button> */}
 
       {name && (
         <IKImage

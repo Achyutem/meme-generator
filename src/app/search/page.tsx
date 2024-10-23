@@ -17,7 +17,7 @@ const SearchPage = async ({
   unstable_noStore();
 
   const files = await imagekit.listFiles({
-    searchQuery: `name:${searchParams.q}`,
+    tags: searchParams.q,
   });
 
   return (
