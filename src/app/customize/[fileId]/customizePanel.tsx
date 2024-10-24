@@ -4,9 +4,10 @@
 import { urlEndpoint } from "@/app/providers";
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { TextOverlay } from "./overlayText";
 import { Button } from "@/components/ui/button";
+import { debounce } from "lodash";
 
 const CustomizePanel = ({
   file,
@@ -20,6 +21,24 @@ const CustomizePanel = ({
 
   const transformationsArray = Object.values(transformations);
 
+  const onUpdate = useCallback(
+    debounce(
+      (index: number, text: string, x: number, y: number, bgColor?: string) => {
+        console.log("we are updating");
+        setTransformations((current) => ({
+          ...current,
+          [`text${index}`]: {
+            raw: `l-text,i-${text ?? " "},${
+              bgColor ? `bg-${bgColor},pa-10,` : ""
+            }fs-50,ly-bw_mul_${y.toFixed(2)},lx-bw_mul_${x.toFixed(2)},l-end`,
+          },
+        }));
+      },
+      250
+    ),
+    []
+  );
+
   return (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
@@ -27,16 +46,7 @@ const CustomizePanel = ({
           <TextOverlay
             key={index}
             index={index + 1}
-            onUpdate={(text, x, y) => {
-              setTransformations((current) => ({
-                ...current,
-                [`text${index}`]: {
-                  raw: `l-text,i-${text ?? " "},fs-50,ly-bw_mul_${y.toFixed(
-                    2
-                  )},lx-bw_mul_${x.toFixed(2)},l-end`,
-                },
-              }));
-            }}
+            onUpdate={onUpdate}
           />
         ))}
 
