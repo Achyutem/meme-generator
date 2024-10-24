@@ -1,7 +1,7 @@
 import { unstable_noStore } from "next/cache";
 import { ResultsList } from "./results-list";
 import UploadMemeButton from "./uploadMemeButton";
-import imagekit from "@/lib/imagekit";
+import { imagekit } from "@/app/lib/imagekit";
 
 const SearchPage = async ({
   searchParams,
