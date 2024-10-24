@@ -3,17 +3,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+import { ModeToggle } from "@/components/ui/modeToggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CircleUser, Menu, Package2, Search } from "lucide-react";
-import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ModeToggle } from "@/components/ui/modeToggle";
-import SearchInput from "./searchInput";
+import { redirect } from "next/navigation";
+import { SearchInput } from "./search-input";
+import { auth, signIn, signOut } from "@/auth";
 
 export function Header() {
   return (
@@ -68,35 +66,53 @@ export function Header() {
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <SearchInput />
-            {/* <Input
-              name="search"
-              type="search"
-              placeholder="Search Memes..."
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            /> */}
           </div>
         </form>
         <ModeToggle />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="secondary"
-              size="icon"
-              className="rounded-full">
-              <CircleUser className="h-5 w-5" />
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+
+        <AccountMenu />
       </div>
     </header>
+  );
+}
+
+async function AccountMenu() {
+  const session = await auth();
+
+  if (!session) {
+    return (
+      <form
+        action={async () => {
+          "use server";
+          await signIn();
+        }}>
+        <Button type="submit">Sign in</Button>
+      </form>
+    );
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="secondary"
+          size="icon"
+          className="rounded-full">
+          <CircleUser className="h-5 w-5" />
+          <span className="sr-only">Toggle user menu</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem>
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+            }}>
+            <button type="submit">Sign out</button>
+          </form>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
