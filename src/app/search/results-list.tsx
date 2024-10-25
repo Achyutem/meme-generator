@@ -12,15 +12,29 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
 
-export function ResultsList({ files }: { files: FileObject[] }) {
+export function ResultsList({
+  files,
+  counts,
+}: {
+  files: FileObject[];
+  counts: {
+    memeId: string;
+    count: number;
+  }[];
+}) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       {files.map((file) => (
         <Card key={file.fileId}>
           <CardHeader>
-            <CardTitle>
-              {file.customMetadata?.displayName ?? file.name}
+            <CardTitle className="flex justify-between">
+              <div>{file.customMetadata?.displayName ?? file.name} </div>
+              <div className="flex gap-1 items-center">
+                <HeartFilledIcon />
+                {counts.find((c) => c.memeId === file.fileId)?.count ?? 0}
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -35,7 +49,7 @@ export function ResultsList({ files }: { files: FileObject[] }) {
           </CardContent>
           <CardFooter>
             <Button asChild>
-              <Link href={`/customize/${file.fileId}`}>Edit</Link>
+              <Link href={`/customize/${file.fileId}`}>Customize</Link>
             </Button>
           </CardFooter>
         </Card>
