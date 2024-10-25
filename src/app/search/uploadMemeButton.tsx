@@ -23,6 +23,7 @@ const UploadMemeButton = () => {
   const [displayName, setDisplayName] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [tags, setTags] = useState("");
+
   return (
     <Dialog>
       <DialogTrigger asChild>

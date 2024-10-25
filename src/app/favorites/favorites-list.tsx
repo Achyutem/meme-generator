@@ -1,7 +1,6 @@
 "use client";
 
 import { IKImage } from "imagekitio-next";
-import { urlEndpoint } from "../providers";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -17,7 +16,6 @@ const FavoritesList = ({ favorites }: { favorites: Favorite[] }) => {
             <IKImage
               key={favorite.memeId}
               path={favorite.filePath}
-              urlEndpoint={urlEndpoint}
               alt={"a meme"}
               width={300}
               height={300}

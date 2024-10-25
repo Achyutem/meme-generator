@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { urlEndpoint } from "@/app/providers";
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
 import { useCallback, useState } from "react";
@@ -185,7 +184,6 @@ const CustomizePanel = ({
           <div id="meme">
             <IKImage
               path={file.filePath}
-              urlEndpoint={urlEndpoint}
               alt={file.name}
               transformation={
                 [
